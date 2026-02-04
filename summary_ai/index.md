@@ -1,18 +1,7 @@
----
-layout: default
-title: AI Summaries
----
+# Directory Listing
 
-# All AI Summaries
-
-<ul>
-  {% for page in site.pages %}
-    {% if page.path contains 'summary_ai/' and page.url != '/summary_ai/' %}
-      <li>
-        <a href="{{ page.url | relative_url }}">
-          {{ page.name | remove: ".md" }}
-        </a>
-      </li>
-    {% endif %}
-  {% endfor %}
-</ul>
+- [ istrateeduard]( istrateeduard)
+- [1Notes.pdf.md](1Notes.pdf.md)
+- [ExamenIAEFnr.22024.pdf.md](ExamenIAEFnr.22024.pdf.md)
+- [Notes.pdf.md](Notes.pdf.md)
+- [x.txt](x.txt)
