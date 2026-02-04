@@ -1,0 +1,25 @@
+name: Generate Directory Listing
+
+on:
+  push:
+    paths:
+      - 'summary_ai/**' # Only run when files in this folder change
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Generate Index
+        uses: raycast/github-actions-git-file-list@v1.0.0
+        with:
+          # This will list all files in summary_ai and output them to a file
+          # You might need a custom script here if you want pretty formatting
+          folder: "summary_ai"
+          output_file: "summary_ai/index.md"
+          
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update file index
