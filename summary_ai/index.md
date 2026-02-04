@@ -4,6 +4,7 @@
 - [1contestatiemodel.pdf.md](1contestatiemodel.pdf.md)
 - [CursMCPparteaaII-a.pdf.md](CursMCPparteaaII-a.pdf.md)
 - [Curs_Circuiteliniaredemicrounde.pdf.md](Curs_Circuiteliniaredemicrounde.pdf.md)
+- [ExamenIAEFnr.12023.pdf.md](ExamenIAEFnr.12023.pdf.md)
 - [IMG_1961.HEIC.md](IMG_1961.HEIC.md)
 - [Online-ase-networks.png.md](Online-ase-networks.png.md)
 - [POCian2025.pdf.md](POCian2025.pdf.md)
