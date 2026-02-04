@@ -1,3 +1,6 @@
+---
+title: ExamenIAEFnr.22024.pdf.md
+---
 # Raport de Analiză a Documentului
 
 **Data:** 2026-02-04T11:21:38.363+02:00
