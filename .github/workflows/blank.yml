@@ -5,21 +5,34 @@ on:
     paths:
       - 'summary_ai/**' # Only run when files in this folder change
 
+permissions:
+  contents: write # Required for the git-auto-commit-action to push changes
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Generate Index
-        uses: raycast/github-actions-git-file-list@v1.0.0
-        with:
-          # This will list all files in summary_ai and output them to a file
-          # You might need a custom script here if you want pretty formatting
-          folder: "summary_ai"
-          output_file: "summary_ai/index.md"
+        run: |
+          # 1. Enter the directory
+          cd summary_ai
           
+          # 2. Create/Reset the index.md file with a header
+          echo "# Directory Listing" > index.md
+          echo "" >> index.md
+          
+          # 3. Loop through files and append them as markdown links
+          # We exclude index.md so it doesn't link to itself
+          for file in *; do
+            if [ -f "$file" ] && [ "$file" != "index.md" ]; then
+              echo "- [$file]($file)" >> index.md
+            fi
+          done
+
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Update file index
+          file_pattern: summary_ai/index.md
