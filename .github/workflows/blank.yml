@@ -1,38 +1,80 @@
-name: Generate Directory Listing
+name: Generate Index and Deploy
 
 on:
+  # Runs on pushes targeting the default branch
   push:
-    paths:
-      - 'summary_ai/**' # Only run when files in this folder change
+    branches: ["main"]
+  # Allows you to run this workflow manually
+  workflow_dispatch:
 
 permissions:
-  contents: write # Required for the git-auto-commit-action to push changes
+  contents: write # Required to commit the new index.md
+  pages: write    # Required to deploy to Pages
+  id-token: write # Required for OIDC
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
+  # Combined Build Job
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
+      # --- STEP 1: GENERATE & COMMIT ---
       - name: Generate Index
         run: |
-          # 1. Enter the directory
-          cd summary_ai
-          
-          # 2. Create/Reset the index.md file with a header
-          echo "# Directory Listing" > index.md
-          echo "" >> index.md
-          
-          # 3. Loop through files and append them as markdown links
-          # We exclude index.md so it doesn't link to itself
-          for file in *; do
-            if [ -f "$file" ] && [ "$file" != "index.md" ]; then
-              echo "- [$file]($file)" >> index.md
-            fi
-          done
+          # Check if directory exists to avoid errors
+          if [ -d "summary_ai" ]; then
+            cd summary_ai
+            
+            # Create/Reset the index.md file
+            echo "# Directory Listing" > index.md
+            echo "" >> index.md
+            
+            # Loop through files
+            for file in *; do
+              if [ -f "$file" ] && [ "$file" != "index.md" ]; then
+                echo "- [$file]($file)" >> index.md
+              fi
+            done
+          else
+            echo "Directory summary_ai not found, skipping generation."
+          fi
 
       - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Update file index
           file_pattern: summary_ai/index.md
+          # This ensures the local build environment is updated 
+          # so the next step sees the new file immediately.
+
+      # --- STEP 2: JEKYLL BUILD ---
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+
+  # Deployment Job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
