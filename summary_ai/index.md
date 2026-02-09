@@ -2,6 +2,7 @@
 
 - [1Planuldeconturi(9).pdf.md](1Planuldeconturi(9).pdf.md)
 - [1contestatiemodel.pdf.md](1contestatiemodel.pdf.md)
+- [AccountingGSS.pdf.md](AccountingGSS.pdf.md)
 - [CursMCPparteaaII-a.pdf.md](CursMCPparteaaII-a.pdf.md)
 - [Curs_Circuiteliniaredemicrounde.pdf.md](Curs_Circuiteliniaredemicrounde.pdf.md)
 - [ExamenIAEFnr.12023.pdf.md](ExamenIAEFnr.12023.pdf.md)
